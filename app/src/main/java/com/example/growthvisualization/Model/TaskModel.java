@@ -9,7 +9,7 @@ public class TaskModel extends RealmObject {
     long start;
     long end;
     // カテゴリ
-    // TODO:カテゴリのまとめ方。「タスク名」でまとめられるようにする？未定
+    // TODO:カテゴリのまとめ方。「タスク名」でまとめられるようにする？まだ未定
     String category;
 
     public TaskModel() {
