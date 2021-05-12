@@ -59,12 +59,26 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        switch (id){
+            case R.id.action_settings:
+                // 設定ボタンを押した処理
+                return true;
 
-        return super.onOptionsItemSelected(item);
+            case R.id.action_timeline:
+                // タイムラインボタンを押して、タイムライン画面へ画面遷移する処理
+                return true;
+
+            case R.id.action_menu:
+                // メニューボタンを押して、メニュー欄を表示する処理
+                return true;
+
+            case R.id.action_chart:
+                // グラフボタンを押して、グラフ画面へ画面遷移する処理
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
