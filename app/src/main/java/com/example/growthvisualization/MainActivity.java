@@ -1,8 +1,9 @@
 package com.example.growthvisualization;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
+// import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+    // ホーム画面
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -36,11 +38,14 @@ public class MainActivity extends AppCompatActivity {
 //        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
+        // 「新規作成」を押下した場合
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplication(), NewActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -57,23 +62,36 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Intent intent;
         int id = item.getItemId();
 
         switch (id){
+            // 設定ボタンを押した処理
             case R.id.action_settings:
-                // 設定ボタンを押した処理
+                intent = new Intent(getApplication(), SettingActivity.class);
+                startActivity(intent);
+
                 return true;
 
+            // タイムラインボタンを押して、タイムライン画面へ画面遷移する処理
             case R.id.action_timeline:
-                // タイムラインボタンを押して、タイムライン画面へ画面遷移する処理
+                intent = new Intent(getApplication(), TimelineActivity.class);
+                startActivity(intent);
+
                 return true;
 
+            // メニューボタンを押して、メニュー欄を表示する処理
             case R.id.action_menu:
-                // メニューボタンを押して、メニュー欄を表示する処理
+                intent = new Intent(getApplication(), null);
+                startActivity(intent);
+
                 return true;
 
+            // グラフボタンを押して、グラフ画面へ画面遷移する処理
             case R.id.action_chart:
-                // グラフボタンを押して、グラフ画面へ画面遷移する処理
+                intent = new Intent(getApplication(), ChartActivity.class);
+                startActivity(intent);
+
                 return true;
 
             default:

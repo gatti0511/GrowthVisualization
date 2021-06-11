@@ -3,24 +3,25 @@ package com.example.growthvisualization.Model;
 import io.realm.RealmObject;
 
 public class TaskModel extends RealmObject {
-    // タスクの名前
-    String name;
+    // タイトル
+    String title;
+    // 本文
+    String text;
     // 開始と終了時間
     long start;
     long end;
-    // カテゴリ
-    // TODO:カテゴリのまとめ方。「タスク名」でまとめられるようにする？まだ未定
-    String category;
+    // アイコン
+    int icon;
 
     public TaskModel() {
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public long getStart() {
@@ -39,11 +40,11 @@ public class TaskModel extends RealmObject {
         this.end = end;
     }
 
-    public String getCategory() {
-        return category;
+    public int getIcon() {
+        return icon;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setIcon(int icon) {
+        this.icon = icon;
     }
 }
