@@ -14,16 +14,24 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.growthvisualization.Model.TaskModel;
 import com.example.growthvisualization.databinding.ActivityMainBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
     // ホーム画面
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+
+    Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +46,29 @@ public class MainActivity extends AppCompatActivity {
 //        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
+        // Realmを使う際、お呪いの２文
+        Realm.init(this);
+        realm = Realm.getDefaultInstance();
+
+        // 保存されている全てのタスクを抽出
+        RealmQuery<TaskModel> query =realm.where(TaskModel.class);
+        RealmResults<TaskModel>results = query.findAll();
+
+        // 保存されている場合
+        if (0 < results.size()){
+            // TODO:ListLayoutにタスクを表示する処理
+        }
+        // 何も保存されていない場合
+        else{
+            // TODO:テストで数検のタスクを保存する
+        }
+
         // 「新規作成」を押下した場合
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+                Snackbar.make(view, "新規作成画面", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 Intent intent = new Intent(getApplication(), NewActivity.class);
                 startActivity(intent);
             }
