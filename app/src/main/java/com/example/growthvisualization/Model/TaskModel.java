@@ -3,6 +3,8 @@ package com.example.growthvisualization.Model;
 import io.realm.RealmObject;
 
 public class TaskModel extends RealmObject {
+    // ID
+    int id;
     // タイトル
     String title;
     // 本文
@@ -16,12 +18,28 @@ public class TaskModel extends RealmObject {
     public TaskModel() {
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public long getStart() {
