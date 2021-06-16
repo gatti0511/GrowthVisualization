@@ -3,6 +3,8 @@ package com.example.growthvisualization.Model;
 import io.realm.RealmObject;
 
 public class TaskModel extends RealmObject {
+    // TODO:主キーと他変数の初期値を設定してない
+
     // ID
     int id;
     // タイトル

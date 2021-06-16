@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -20,6 +21,11 @@ import com.google.android.material.snackbar.Snackbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     Realm realm;
+    List<TaskModel> taskModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,23 +59,53 @@ public class MainActivity extends AppCompatActivity {
 
         // 保存されている全てのタスクを抽出
         RealmQuery<TaskModel> query =realm.where(TaskModel.class);
-        RealmResults<TaskModel>results = query.findAll();
+        RealmResults<TaskModel> results = query.findAll();
+
+        taskModelList = new ArrayList<TaskModel>();
 
         // 保存されている場合
         if (0 < results.size()){
-            // TODO:ListLayoutにタスクを表示する処理
+
+            // ListLayoutにタスクを表示する処理
+            for(TaskModel taskModel : results){
+                taskModelList.add(taskModel);
+            }
         }
         // 何も保存されていない場合
         else{
-            // TODO:テストで数検のタスクを保存する
+            // テストで数検のタスクを保存する
+            realm.beginTransaction();
+
+            for(int i = 1; i <= 3; i++){
+                TaskModel taskModel = new TaskModel();
+
+                taskModel.setId(i);
+                taskModel.setTitle("testタイトル" + i);
+                taskModel.setText("test本文" + i);
+
+                TaskModel info = realm.copyToRealm(taskModel);
+
+                taskModelList.add(taskModel);
+            }
+
+            realm.commitTransaction();
         }
+
+        // リストビューを取得。アダプターをインスタンス生成。リストビューにアダプターをセット。
+        ListView listView = findViewById(R.id.list_view);
+        BaseAdapter listAdapter = new TaskListAdapter(this.getApplicationContext(), R.layout.list_layout, taskModelList);
+        listView.setAdapter(listAdapter);
 
         // 「新規作成」を押下した場合
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // make: Tomcatのようなもの。"text"が本文
+                // setAction: ボタンを実装できる。"text"がボタンとして表示される。"listener"にボタンを押下した後の処理を実装できる。
                 Snackbar.make(view, "新規作成画面", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                        .setAction("確認しました", null).show();
+
+                // TODO:現状、遷移先の画面Activiteを作成していないためエラーが起こる
                 Intent intent = new Intent(getApplication(), NewActivity.class);
                 startActivity(intent);
             }
@@ -129,5 +166,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }
